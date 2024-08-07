@@ -75,10 +75,14 @@ class EndGame(FinalHand):
         Returns:
             str: _A string message of the games end_
         """
-        if player_score == 21 or player_score < 21 and player_score > games_score:
+        if player_score == 0:
             return f"{self.display_game_status(player_cards, games_cards)}\n You Win!"
         elif games_score > 21 and player_score < 21:
             return f"{self.display_game_status(player_cards, games_cards)}\n Your opponent went over. You Win!"
-        else:
+        elif games_score == 0:
             return f"{self.display_game_status(player_cards, games_cards)}\n You Loose!"
+        elif games_score == player_score:
+            return f"{self.display_game_status(player_cards, games_cards)}\n Draw"
+        elif player_score > 21:
+            return f"{self.display_game_status(player_cards, games_cards)}\n You went over.You loose!"
 
