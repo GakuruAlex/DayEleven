@@ -17,6 +17,11 @@ class PlayBlackJack:
         Returns:
             int: _Sum of the scores_
         """
+        if sum(scores) == 21 and len(scores) == 2:
+                return 0
+        if 11 in scores and sum(scores) > 21:
+                scores.remove(11)
+                scores.append(1)
         return sum(scores)
 
     def scores_lst(self, scores: list, card: int) -> list:
