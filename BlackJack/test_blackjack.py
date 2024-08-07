@@ -18,7 +18,7 @@ class TestCurrentScore:
         ([10,10], 20),
         ([10, 7, 5], 22),
         ([10], 10),
-        ([11, 10, 10], 31),
+        ([11, 10, 10], 21),
         ([10, 10, 10], 30),
     ])
     def test_current_score(self, test_scores, expected_score):
@@ -40,10 +40,9 @@ class TestScoresList:
 class TestDisplayGameStatus:
     games_status = PlayBlackJack()
     @pytest.mark.parametrize("player_cards, games_cards, display_text", [
-        ([10, 11], [8], "\t\tYour cards: [10, 11], current score: 21\n\t\tComputer's first card: 8" ),
+        ([10, 11], [8, 4], "\t\tYour cards: [10, 11], current score: 0\n\t\tComputer's first card: 8" ),
          ([11, 2, 5], [3, 8], "\t\tYour cards: [11, 2, 5], current score: 18\n\t\tComputer's first card: 3"),
-         ([3, 2, 9], [7], "\t\tYour cards: [3, 2, 9], current score: 14\n\t\tComputer's first card: 7"),
-         ([10, 10, 10], [10], "\t\tYour cards: [10, 10, 10], current score: 30\n\t\tComputer's first card: 10")
-         ])
+         ([3, 2, 9], [7, 6], "\t\tYour cards: [3, 2, 9], current score: 14\n\t\tComputer's first card: 7"),
+         ([10, 10, 10], [10, 1], "\t\tYour cards: [10, 10, 10], current score: 30\n\t\tComputer's first card: 10"),])
     def test_display_game_status(self, player_cards, games_cards, display_text):
         assert self.games_status.display_game_status(player_cards, games_cards) == display_text
