@@ -85,4 +85,9 @@ class EndGame(FinalHand):
             return f"{self.display_game_status(player_cards, games_cards)}\n Draw"
         elif player_score > 21:
             return f"{self.display_game_status(player_cards, games_cards)}\n You went over.You loose!"
+        else:
+            if games_score > player_score:
+                return f"{self.display_game_status(player_cards, games_cards)}\n You loose!"
+            else:
+                return f"{self.display_game_status(player_cards, games_cards)}\n You win!"
 
