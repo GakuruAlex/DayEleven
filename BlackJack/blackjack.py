@@ -103,7 +103,7 @@ class EndGame(FinalHand):
             if games_score > player_score:
                 return f"{self.display_game_status(player_cards, games_cards)}\n You loose!"
             else:
-                return f"{self.display_game_status(player_cards, games_cards)}\n You win!"
+                return f"{self.display_game_status(player_cards, games_cards)}\n You Win!"
         elif games_score < 21 and player_score > 21:
-            return f"{self.display_game_status(player_cards, games_cards)}\n You went over.You loose!"
-        
+            return f"{self.display_game_status(player_cards, games_cards)}\n You went over. You loose!"
+
