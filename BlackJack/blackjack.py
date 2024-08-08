@@ -8,6 +8,21 @@ class PlayBlackJack:
         """
         return choice(cards)
 
+    def draw_start_cards(self, player_cards: list, computer_cards: list)-> tuple:
+        """_Draw the starting two cards for the player and Computer_
+
+        Args:
+            player_cards (list): _A list of player cards_
+            computer_cards (list): _A list of computer cards_
+
+        Returns:
+            _tuple_: _A turple with two lists, player cards and computer cards_
+        """
+        for _ in range(2):
+            self.scores_lst(card=self.play_blackjack(), scores=player_cards)
+            self.scores_lst(card=self.play_blackjack(), scores=computer_cards)
+        return  player_cards, computer_cards
+
     def current_score(self, scores: list) -> int:
         """_Calculate the sum of scores_
 
@@ -36,6 +51,7 @@ class PlayBlackJack:
         """
         scores.append(card)
         return scores
+
     def display_game_status(self, player_cards: list,  games_cards: list) -> str:
         """_Return Display of current hand_
 
@@ -75,19 +91,19 @@ class EndGame(FinalHand):
         Returns:
             str: _A string message of the games end_
         """
-        if player_score == 0:
+        if player_score == games_score:
+            return f"{self.display_game_status(player_cards, games_cards)}\n Draw"
+        elif player_score == 0 or player_score == 21:
             return f"{self.display_game_status(player_cards, games_cards)}\n You Win!"
         elif games_score > 21 and player_score < 21:
             return f"{self.display_game_status(player_cards, games_cards)}\n Your opponent went over. You Win!"
-        elif games_score == 0:
+        elif games_score == 0 or games_score == 21:
             return f"{self.display_game_status(player_cards, games_cards)}\n You Loose!"
-        elif games_score == player_score:
-            return f"{self.display_game_status(player_cards, games_cards)}\n Draw"
-        elif player_score > 21:
-            return f"{self.display_game_status(player_cards, games_cards)}\n You went over.You loose!"
-        else:
+        elif games_score and player_score < 21:
             if games_score > player_score:
                 return f"{self.display_game_status(player_cards, games_cards)}\n You loose!"
             else:
                 return f"{self.display_game_status(player_cards, games_cards)}\n You win!"
-
+        elif games_score < 21 and player_score > 21:
+            return f"{self.display_game_status(player_cards, games_cards)}\n You went over.You loose!"
+        
