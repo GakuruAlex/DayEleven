@@ -8,55 +8,45 @@ def main() -> None:
     end_the_game = EndGame()
     final = FinalHand()
     is_playing = True
-    user_wants_another = True
 
     while is_playing:
-        player_cards = []
-        games_cards = []
-        answer = input("Do you want to play a game of Blackjack ? Type 'y' or 'n' : ")
-        if answer == "y":
-            print(f"{logo}\n")
-# draw two cards for the player and  for the Computer
-            for _ in range(2):
-                player_turn.scores_lst(player_cards, player_turn.play_blackjack())
-                games_turn.scores_lst(games_cards, games_turn.play_blackjack())
+        player_cards =[]
+        computer_cards = []
+        start_or_stop = input("Do you want to play a game of blackjack ? Type 'y' for yes or 'n' for no. ")
 
-# Display the player cards and their total and Computer card
-            print(play_game.display_game_status(player_cards, games_cards))
-            while user_wants_another:
-                another_card=input(f"Type 'y' to get another card,  type 'n' to pass. ")
+        if start_or_stop.lower() == "y":
+            print(f"{logo}")
+            #Draw two cards for both the computer and player
+            play_game.draw_start_cards(player_cards=player_cards, computer_cards=computer_cards)
+            #Calculate sum of the cards for the player and computer
+            sum_of_player_cards =player_turn.current_score(scores=player_cards)
+            sum_of_computer_cards = player_turn.current_score(scores=computer_cards)
 
-                if another_card.lower() == 'y':
-
-# Draw another card for the player
-                    player_turn.scores_lst(player_cards, player_turn.play_blackjack())
-
-# Display the player cards and their total and Computer card
-                    print(play_game.display_game_status(player_cards, games_cards))
-
-# Player doesn't want another card
-                elif another_card.lower() == "n":
-                    user_wants_another = False
-
-# get the games score
-            games_score = games_turn.current_score(games_cards)
-            player_score = player_turn.current_score(player_cards)
-            while games_score < 17 and games_score != 0 and player_score != 0:
-
-# draw more cards for the computer if computer score is less than 17
-                games_turn.scores_lst(games_cards, games_turn.play_blackjack())
-                games_score = games_turn.current_score(games_cards)
-
-#get player scores and games score
-            games_score = games_turn.current_score(games_cards)
-
-            print(end_the_game.end_game(games_cards,player_cards,player_score, games_score))
-
-        elif answer == 'n':
-            is_playing = False
+            print(play_game.display_game_status(player_cards=player_cards, games_cards=computer_cards))
+            #While player score is not a blackjack and score is still below 21 ask if they want another card
+            while sum_of_player_cards != 0 and sum_of_player_cards < 21:
+                answer = input("Do you want another card? Type 'y' for yes and 'n' for no. ")
+                if answer.lower() == 'y':
+                    #If player wants another card update their cards list with new card
+                    play_game.scores_lst(card =play_game.play_blackjack(), scores=player_cards)
+                    #update the sum of player cards
+                    sum_of_player_cards =player_turn.current_score(scores=player_cards)
+                    #Display current game status
+                    print(play_game.display_game_status(games_cards=computer_cards, player_cards=player_cards))
+                else:
+                    #If player wants no more cards display current game status
+                    sum_of_player_cards =player_turn.current_score(scores=player_cards)
+                    print(play_game.display_game_status(games_cards=computer_cards, player_cards=player_cards))
+                    break
+                #While the sum of computer cards is still below 17 and not a blackjack
+            while sum_of_computer_cards < 17 and sum_of_computer_cards != 0:
+                #Update the computer score list with new card and new sum
+                        play_game.scores_lst(card=play_game.play_blackjack(), scores=computer_cards)
+                        sum_of_computer_cards =  games_turn.current_score(scores=computer_cards)
+            #Display the end of the game
+            sum_of_computer_cards =  games_turn.current_score(scores=computer_cards)
+            print(f"Game Over! \n{end_the_game.end_game(games_cards=computer_cards, player_cards=player_cards, player_score=sum_of_player_cards, games_score=sum_of_computer_cards)}")
         else:
-            print("Invalid!")
-            break
-
+            is_playing = False
 if __name__ == "__main__":
     main()
